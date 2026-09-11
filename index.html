@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- ============================================================= -->
+<!--  ANONYMOUS / REVIEW-SAFE VERSION  (double-blind ICRA)         -->
+<!--  Keep everything generic — no names, lab, grants, or links    -->
+<!--  that reveal identity. Deploy as index.html in the anon repo. -->
+<!-- ============================================================= -->
+<title>Anonymous Project — Project Page</title>
+<meta name="description" content="One-sentence summary of the project. No author or institution names.">
+<meta name="keywords" content="keyword one, keyword two, keyword three">
+<meta name="robots" content="noindex">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#fbfbfd; --surface:#fff;
+    --ink:#16181d; --muted:#5b6270; --faint:#8a909c;
+    --line:#e6e8ec; --accent:#2857a4; --accent-dk:#1d3f78; --chip:#1f2430;
+    --radius:10px; --maxtext:720px; --maxwide:1040px;
+    --navh:52px;
+  }
+  *{ box-sizing:border-box; }
+  html{ -webkit-text-size-adjust:100%; scroll-behavior:smooth; }
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:"Inter", system-ui, -apple-system, sans-serif;
+    font-size:17px; line-height:1.65;
+    text-rendering:optimizeLegibility; -webkit-font-smoothing:antialiased;
+  }
+  a{ color:var(--accent); text-decoration:none; }
+  a:hover{ text-decoration:underline; }
+
+  .wrap{ max-width:var(--maxwide); margin:0 auto; padding:0 24px; }
+  .textcol{ max-width:var(--maxtext); margin-inline:auto; }
+
+  /* ---------- HERO ---------- */
+  header.hero{ text-align:center; padding:70px 0 30px; }
+  .hero .icon{ font-size:40px; line-height:1; margin-bottom:14px; }
+  .hero h1{
+    font-family:"Spectral", Georgia, serif; font-weight:600;
+    font-size:clamp(30px,5vw,46px); line-height:1.12; letter-spacing:-0.01em;
+    margin:0 auto 20px; max-width:16ch; text-wrap:balance;
+  }
+  .authors{ font-size:17px; color:var(--muted); margin:0 auto 8px; max-width:60ch; }
+  .anon-badge{
+    display:inline-block; margin-top:6px; font-size:13.5px; color:var(--muted);
+    background:#eef1f6; border:1px solid var(--line); padding:5px 14px; border-radius:999px;
+  }
+  .links{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:24px; }
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--chip); color:#fff; padding:9px 18px; border-radius:999px;
+    font-size:15px; font-weight:500; border:1px solid transparent;
+    transition:background .18s ease, transform .18s ease;
+  }
+  .btn:hover{ background:#000; text-decoration:none; transform:translateY(-1px); }
+  .btn svg{ width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:2; }
+
+  /* ---------- STICKY SUB-NAV ---------- */
+  nav.subnav{
+    position:sticky; top:0; z-index:20;
+    background:rgba(251,251,253,.85); backdrop-filter:saturate(180%) blur(8px);
+    border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+    height:var(--navh);
+  }
+  nav.subnav .wrap{ display:flex; gap:26px; justify-content:center; align-items:center; height:100%; overflow-x:auto; }
+  nav.subnav a{ color:var(--muted); font-size:14.5px; font-weight:500; white-space:nowrap; }
+  nav.subnav a:hover{ color:var(--ink); text-decoration:none; }
+
+  /* ---------- SECTIONS ---------- */
+  section{ padding:54px 0; scroll-margin-top:calc(var(--navh) + 12px); }
+  section + section{ border-top:1px solid var(--line); }
+  h2{
+    font-family:"Spectral", Georgia, serif; font-weight:600; font-size:27px;
+    text-align:center; margin:0 0 26px; letter-spacing:-0.01em;
+  }
+  p{ margin:0 0 16px; }
+  .caption{ color:var(--muted); font-size:14.5px; line-height:1.55; margin-top:12px; text-align:center; }
+
+  /* ---------- TEASER IMAGE(S) right after title ---------- */
+  .teaser{ padding-top:8px; }
+  .teaser-grid{
+    display:grid; gap:16px;
+    grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
+  }
+  .teaser-grid figure{ margin:0; }
+  .teaser-grid img{
+    width:100%; height:100%; object-fit:cover; display:block;
+    border-radius:var(--radius); border:1px solid var(--line);
+  }
+
+  /* ---------- VIDEO STRIP (horizontal scroll) ---------- */
+  .strip-nav-row{ display:flex; justify-content:flex-end; margin-bottom:14px; }
+  .strip-nav{ display:inline-flex; gap:8px; }
+  .strip-nav button{
+    width:38px; height:38px; border-radius:999px; cursor:pointer;
+    border:1px solid var(--line); background:#fff; color:var(--ink);
+    font-size:18px; line-height:1; display:grid; place-items:center;
+    transition:border-color .16s, background .16s;
+  }
+  .strip-nav button:hover{ border-color:var(--muted); background:#f4f6fa; }
+  .strip-nav button:disabled{ opacity:.35; cursor:default; }
+
+  .video-strip{
+    display:flex; gap:18px; overflow-x:auto; padding:4px 4px 18px;
+    scroll-snap-type:x mandatory; scroll-behavior:smooth;
+    scrollbar-width:thin;
+  }
+  .video-card{ flex:0 0 clamp(280px, 42vw, 440px); scroll-snap-align:start; }
+  .video-card video{
+    width:100%; aspect-ratio:16/9; object-fit:cover; display:block;
+    background:#0e0f13; border-radius:12px; border:1px solid var(--line);
+  }
+  .video-card .vcap{ color:var(--muted); font-size:14px; margin:10px 2px 0; text-align:center; font-style:italic; }
+  .strip-hint{ text-align:center; color:var(--faint); font-size:13px; margin-top:4px; }
+
+  /* ---------- FIGURES (system overview) ---------- */
+  .media img{ width:100%; height:auto; display:block; border-radius:var(--radius); border:1px solid var(--line); }
+
+  /* ---------- BIBTEX ---------- */
+  pre.bib{
+    background:#12141a; color:#e8eaf0; border-radius:12px; padding:20px 22px;
+    overflow-x:auto; font-size:13.5px; line-height:1.55;
+    font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  }
+  footer{ text-align:center; color:var(--faint); font-size:13.5px; padding:34px 24px 60px; }
+
+  :focus-visible{ outline:3px solid rgba(40,87,164,.4); outline-offset:2px; border-radius:4px; }
+
+  @media (max-width:640px){
+    body{ font-size:16px; }
+    header.hero{ padding:52px 0 24px; }
+    section{ padding:42px 0; }
+    .strip-nav{ display:none; }
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{ scroll-behavior:auto; }
+    *{ transition:none !important; animation:none !important; }
+  }
+</style>
+</head>
+
+<body>
+
+<!-- ============================================================= -->
+<!--  HERO  — no names / affiliations / logos / identifying links  -->
+<!-- ============================================================= -->
+<header class="hero">
+  <div class="wrap">
+    <div class="icon">🔬</div>
+      <h1>Anonymous Project</h1>
+    <p class="authors">Anonymous Authors</p>
+    <span class="anon-badge">Paper under double-blind review — ICRA</span>
+
+    <!-- Only non-identifying buttons. NO arXiv / GitHub / personal links during review. -->
+    <div class="links">
+      <a class="btn" href="#abstract">
+        <svg viewBox="0 0 24 24"><path d="M6 3h9l5 5v13H6z"/><path d="M14 3v5h5"/></svg>
+        Read
+      </a>
+      <a class="btn" href="#videos">
+        <svg viewBox="0 0 24 24"><path d="M10 8l6 4-6 4z"/></svg>
+        Videos
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- ---------- STICKY SECTION NAV ---------- -->
+<nav class="subnav">
+  <div class="wrap">
+    <a href="#videos">Videos</a>
+    <a href="#abstract">Abstract</a>
+    <a href="#system">System Overview</a>
+    <a href="#bibtex">BibTeX</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- ============================================================= -->
+  <!--  TEASER IMAGE(S) — right after the title                      -->
+  <!--  One <figure> = full-width image. Add more <figure> blocks    -->
+  <!--  and they auto-arrange 2-across, 3-across, etc.               -->
+  <!--  CHECK each image for logos, name tags, watermarks.           -->
+  <!-- ============================================================= -->
+  <section class="teaser">
+    <div class="teaser-grid">
+      <figure>
+        <img src="images/office.png" alt="Robot operating in an indoor workspace">
+      </figure>
+      <!-- Add more images here for a row/grid:
+      <figure><img src="images/teaser2.png" alt=""></figure>
+      <figure><img src="images/teaser3.png" alt=""></figure>
+      -->
+    </div>
+    <p class="caption">Project environment and platform used in the experiments.</p>
+  </section>
+
+  <!-- ============================================================= -->
+  <!--  VIDEO STRIP  <- your videos (scroll horizontally for more)   -->
+  <!--  Add/remove entries in the VIDEOS list in the <script> below. -->
+  <!--  SCAN each clip: faces, lab names on gear, whiteboards,       -->
+  <!--    monitor reflections, file paths/usernames in screen caps,  -->
+  <!--    watermarks, audio naming a person or place.                -->
+  <!--  Host .mp4s inside the anon repo, not a personal channel.     -->
+  <!-- ============================================================= -->
+  <section id="videos">
+    <div class="strip-nav-row">
+      <div class="strip-nav">
+        <button id="strip-prev" aria-label="Scroll to previous videos">&lsaquo;</button>
+        <button id="strip-next" aria-label="Scroll to next videos">&rsaquo;</button>
+      </div>
+    </div>
+    <div class="video-strip" id="video-strip"></div>
+    <p class="strip-hint">Scroll or swipe for more &rarr;</p>
+  </section>
+
+  <!-- ============================================================= -->
+  <!--  ABSTRACT — third person; no "our lab", no grant IDs          -->
+  <!-- ============================================================= -->
+  <section id="abstract">
+    <h2>Abstract</h2>
+    <div class="textcol">
+      <p>Abstract will be added here. Keep it in the third person and free of any phrase that
+      points to a specific group, lab, or funding source.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================= -->
+  <!--  SYSTEM OVERVIEW — figure + caption (duplicate for more)      -->
+  <!--  Same image check (logos, tags, watermarks).                 -->
+  <!-- ============================================================= -->
+  <section id="system" class="media">
+    <h2>System Overview</h2>
+    <figure style="margin:0">
+       <img src="images/office.png" alt="Robot operating in an indoor workspace"
+           onerror="this.style.display='none'">
+       <figcaption class="caption">Figure 1. Experimental platform and workspace.</figcaption>
+    </figure>
+  </section>
+
+  <!-- ============================================================= -->
+  <!--  BIBTEX — anonymized; add real authors only for camera-ready. -->
+  <!-- ============================================================= -->
+  <section id="bibtex">
+    <h2>BibTeX</h2>
+    <div class="textcol">
+<pre class="bib">@misc{anonymous_icra,
+  author  = {Anonymous Authors},
+  title   = {Anonymous Project},
+  note    = {Under review at ICRA},
+  year    = {2027},
+}</pre>
+    </div>
+  </section>
+
+</div>
+
+<footer>Anonymous project page prepared for double-blind review.</footer>
+
+<script>
+  /* ===============================================================
+     YOUR VIDEO LIST — the only thing to edit for the strip.
+     Put .mp4 files in a "videos" folder next to this file, then add
+     one entry per video. Add as many as you like — they scroll.
+     "poster" (a thumbnail image) is optional.
+     =============================================================== */
+  const VIDEOS = [
+    { src:"videos/demo1.mp4", caption:"Demonstration one" },
+    { src:"videos/demo2.mp4", caption:"Demonstration two" },
+    { src:"videos/demo3.mp4", caption:"Demonstration three" },
+  ];
+
+  const strip = document.getElementById('video-strip');
+
+  VIDEOS.forEach(v => {
+    const card = document.createElement('div');
+    card.className = 'video-card';
+    const vid = document.createElement('video');
+    vid.src = v.src; vid.muted = true; vid.loop = true;
+    vid.playsInline = true; vid.preload = 'metadata';
+    vid.controls = true;
+    if (v.poster) vid.poster = v.poster;
+    const cap = document.createElement('p');
+    cap.className = 'vcap'; cap.textContent = v.caption || '';
+    card.append(vid, cap);
+    strip.appendChild(card);
+  });
+
+  /* Play clips only while on screen (keeps many videos smooth) */
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      const vid = e.target;
+      if (e.isIntersecting) vid.play().catch(()=>{});
+      else vid.pause();
+    });
+  }, { threshold: 0.4 });
+  strip.querySelectorAll('video').forEach(v => io.observe(v));
+
+  /* Arrow buttons scroll the strip by one card */
+  const prev = document.getElementById('strip-prev');
+  const next = document.getElementById('strip-next');
+  function step(){ const c = strip.querySelector('.video-card'); return c ? c.offsetWidth + 18 : 320; }
+  function updateArrows(){
+    prev.disabled = strip.scrollLeft <= 4;
+    next.disabled = strip.scrollLeft + strip.clientWidth >= strip.scrollWidth - 4;
+  }
+  prev.addEventListener('click', () => strip.scrollBy({ left:-step() }));
+  next.addEventListener('click', () => strip.scrollBy({ left: step() }));
+  strip.addEventListener('scroll', updateArrows, { passive:true });
+  window.addEventListener('resize', updateArrows);
+  updateArrows();
+</script>
+
+</body>
+</html>
